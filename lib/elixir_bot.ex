@@ -1,0 +1,2 @@
+defmodule ElixirBot do
+end
