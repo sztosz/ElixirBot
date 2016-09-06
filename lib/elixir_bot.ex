@@ -2,15 +2,15 @@ defmodule ElixirBot do
   use Slacker
   use Slacker.Matcher
 
-  match ~r/.*shots fired.*/, :hate_on
-  match ~r/tell which language is the best/, :best_lang
-  match ~r/.*najlepszy jezyk.*/, :best_lang
-  match ~r/.*dowcip.*/, :joke
-  match ~r/mow do tostera/, :gobot
-  match ~r/.*please.*/, :plz
-  match ~r/dodaj (\w+) (\w+)/, :add_list
-  match ~r/.*pokaz liste.*/, :show_list
-  match ~r/.*resetuj liste.*/, :reset_list
+  match ~r/t-001.*shots fired.*/, :hate_on
+  match ~r/t-001.*najlepszy jezyk.*/, :best_lang
+  match ~r/t-001.*dowcip|smieszkuj.*/, :joke
+  match ~r/t-001.*please.*/, :plz
+  match ~r/t-001.*dodaj (\w+) (.*)/, :add_list
+  match ~r/t-001.*pokaz liste.*/, :show_list
+  match ~r/t-001.*resetuj|wyczysc liste.*/, :reset_list
+  match ~r/t-001.*pomocy.*/, :help
+  match ~r/t-001.*wysylaj|wysyloj|koniec dnia dziecka.*/, :list_ready
 
   def start(_type, _args) do
     {:ok, listener} = Task.start_link(fn -> loop() end)
@@ -26,23 +26,40 @@ defmodule ElixirBot do
   end
 
   def show_list(tars, msg) do
-    IO.puts "POKAZUJE"
     send :shopping, {:get, tars, msg, :listener}
   end
 
-  # def show_list(tars, msg, map) do
-  #   reply = ""
-  #   Enum.each(map, fn(x) -> reply <> x <> "\n" end )
-  #   say tars, msg["channel"], "LISTA: #{reply}"
-  # end
+  def reset_list(tars, msg) do
+    send :shopping, {:reset}
+    say tars, msg["channel"], "Lista wyczyszczona :chewbacca:"
+  end
+
+  def list_ready(tars, msg) do
+    send :shopping, {:ready, tars, msg, :listener}
+  end
 
   def loop() do
     receive do
       {:list, caller, msg, map} ->
-            vals = Map.values(map)
-            say caller, msg["channel"], "LISTA:\n#{Enum.join(vals, "\n")}"
+            say caller, msg["channel"], ShoppingList.list_msg(Map.values(map))
             loop
+      {:send, caller, msg, map} ->
+        IO.puts "#{ShoppingList.ready_msg(Map.values(map))}"
+        say caller, "ID KANALU ROZMOWY Z LENA", ShoppingList.ready_msg(Map.values(map))
+        loop
     end
+  end
+
+  def help(tars, msg) do
+    reply = """
+    Co sie dzieje przyjacielu? :smirk: Wpisz moje imie i powiedz co Ci dolega:
+    ```dowcip|smieszkuj - powiem dowcip,
+    dodaj [przedmiot - 1 wyraz] [ilosc - wiele wyrazow] - dodam do listy,
+    pokaz liste - pokaz aktualna liste zakupow,
+    resetuj|wyczysc liste - usun liste zakupow,
+    wysylaj - wyslij liste do Leny.```
+    """
+    say tars, msg["channel"], reply
   end
 
   def hate_on(tars, msg) do
@@ -57,11 +74,6 @@ defmodule ElixirBot do
 
   def joke(tars, msg) do
     reply = select_joke
-    say tars, msg["channel"], reply
-  end
-
-  def gobot(tars, msg) do
-    reply = "@gobot DUPA"
     say tars, msg["channel"], reply
   end
 
