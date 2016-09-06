@@ -1,5 +1,6 @@
 defmodule ShoppingList do
   def start_link do
+<<<<<<< HEAD
     Task.start_link(fn -> loop(%{}) end)
   end
 
