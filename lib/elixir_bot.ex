@@ -89,7 +89,14 @@ defmodule ElixirBot do
       "W restauracji klient woła kelnera. - W moim elixirze pływa mucha! Na co kelner: No to trzbea będzie dopłacić za wkładkę :laughing:",
       "Co wspólnego ma toster atomowy i elixir? Obaj nie widzieli sie w produkcji :laughing:",
       "W jakiej szkole sa puste sale? W elixir-szkole, bo nie wpuszczaja tam zadnych obiektow :troll:",
-      "Przychodzi 60 letni chłop do dyrektora elixir-szkoły i pyta się dlaczego ciągle po tylu latach jest w I klasie. - Niestety nie możemy przypisać do pana nowej wartości :troll:"
+      "Przychodzi 60 letni chłop do dyrektora elixir-szkoły i pyta się dlaczego ciągle po tylu latach jest w I klasie. - Niestety nie możemy przypisać do pana nowej wartości :troll:",
+      "Elixir opowiada dowcip elixirowi: - Puk puk; - Kto tam?; - Nie znaleziono kto/1, czy masz na mysli kto/2 :crab:",
+      "Dlaczego profesor Snape byl taki smutny? Bo uczyl ELIXIRow :troll:",
+      "Jaki rodzaj orzeszkow najbardziej lubi elixir? MIX :sweat_smile:",
+      "Co powiedzial elixir kiedy przyszedl do KFC? Poprosze LangEra :laughing:",
+      "Co mowi kon piszacy w elixirze? Nic, konie nie mowia :troll:",
+      "Dlaczego elixir jest taki samotny? Bo nie ma zadnych OBIEKTOW zainteresowan :chewbacca:",
+      "Jaki jest ulubiony film elixira? A Nightmare on Elm Street :laughing:"
     ]
     Enum.random(jokes)
   end
