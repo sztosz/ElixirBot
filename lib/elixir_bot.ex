@@ -6,51 +6,37 @@ defmodule ElixirBot do
   match ~r/t-001.*najlepszy jezyk.*/, :best_lang
   match ~r/t-001.*dowcip|smieszkuj.*/, :joke
   match ~r/t-001.*please.*/, :plz
-  match ~r/t-001.*dodaj (\w+) (.*)/, :add_list
+  match ~r/t-001.*dodaj (\w+) (.*)/, :add_to_list
   match ~r/t-001.*pokaz liste.*/, :show_list
   match ~r/t-001.*resetuj|wyczysc liste.*/, :reset_list
   match ~r/t-001.*pomocy.*/, :help
   match ~r/t-001.*wysylaj|wysyloj|koniec dnia dziecka.*/, :list_ready
 
   def start(_type, _args) do
-    {:ok, listener} = Task.start_link(fn -> loop() end)
-    Process.register(listener, :listener)
-    {:ok, pid} = ShoppingList.start_link
-    Process.register(pid, :shopping)
-    {:ok, tars} = ElixirBot.start_link("")
+    ShoppingList.start_link
+    ElixirBot.start_link("")
   end
 
-  def add_list(tars, msg, item, quantity) do
-    send :shopping, {:add, "#{item}, #{quantity}"}
-    say tars, msg["channel"], "#{item} #{quantity} dodane do listy koleszko :ok_hand:"
+  def add_to_list(slack_bot, msg, item, quantity) do
+    ShoppingList.update(item, quantity)
+    say slack_bot, msg["channel"], "#{item} #{quantity} dodane do listy koleszko :ok_hand:"
   end
 
-  def show_list(tars, msg) do
-    send :shopping, {:get, tars, msg, :listener}
+  def show_list(slack_bot, msg) do
+    list_content = ShoppingList.show
+    say slack_bot, msg["channel"], "Lista zakupów \n #{list_content}"
   end
 
-  def reset_list(tars, msg) do
-    send :shopping, {:reset}
-    say tars, msg["channel"], "Lista wyczyszczona :chewbacca:"
+  def reset_list(slack_bot, msg) do
+    ShoppingList.reset
+    say slack_bot, msg["channel"], "Lista wyczyszczona :chewbacca:"
   end
 
-  def list_ready(tars, msg) do
-    send :shopping, {:ready, tars, msg, :listener}
+  def list_ready(slack_bot, msg) do
+    say slack_bot, msg["channel"], ":godmode: NOT IMPLENTENDEDSDESDASDAA......SYNTAX ERROR :chewbacca:"
   end
 
-  def loop() do
-    receive do
-      {:list, caller, msg, map} ->
-            say caller, msg["channel"], ShoppingList.list_msg(Map.values(map))
-            loop
-      {:send, caller, msg, map} ->
-        IO.puts "#{ShoppingList.ready_msg(Map.values(map))}"
-        say caller, "ID KANALU ROZMOWY Z LENA", ShoppingList.ready_msg(Map.values(map))
-        loop
-    end
-  end
-
-  def help(tars, msg) do
+  def help(slack_bot, msg) do
     reply = """
     Co sie dzieje przyjacielu? :smirk: Wpisz moje imie i powiedz co Ci dolega:
     ```dowcip|smieszkuj - powiem dowcip,
@@ -59,27 +45,27 @@ defmodule ElixirBot do
     resetuj|wyczysc liste - usun liste zakupow,
     wysylaj - wyslij liste do Leny.```
     """
-    say tars, msg["channel"], reply
+    say slack_bot, msg["channel"], reply
   end
 
-  def hate_on(tars, msg) do
+  def hate_on(slack_bot, msg) do
     reply = "HATE ON :fire:"
-    say tars, msg["channel"], reply
+    say slack_bot, msg["channel"], reply
   end
 
-  def best_lang(tars, msg) do
+  def best_lang(slack_bot, msg) do
     reply = "Go :muscle:, FYI elixir has flat ass..."
-    say tars, msg["channel"], reply
+    say slack_bot, msg["channel"], reply
   end
 
-  def joke(tars, msg) do
+  def joke(slack_bot, msg) do
     reply = select_joke
-    say tars, msg["channel"], reply
+    say slack_bot, msg["channel"], reply
   end
 
-  def plz(tars, msg) do
+  def plz(slack_bot, msg) do
     reply = "give me some sugar babe :suspect:"
-    say tars, msg["channel"], reply
+    say slack_bot, msg["channel"], reply
   end
 
   defp select_joke do
