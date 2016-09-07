@@ -18,7 +18,7 @@ defmodule ShoppingList do
   end
 
   def list_msg(content) do
-    if byte_size(content) == 0 do
+    if String.length(content) == 0 do
       "Lista pusta, dodaj cos kumplu :hankey:"
     else
       """
@@ -29,7 +29,7 @@ defmodule ShoppingList do
   end
 
   def ready_msg(content) do
-    if byte_size(content) > 0 do
+    if String.length(content) > 0 do
       """
       Hej Lenka, lista zakupkow:
       ```#{content}```
