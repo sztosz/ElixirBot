@@ -19,7 +19,7 @@ defmodule ElixirBot do
 
   def start(_type, _args) do
     ShoppingList.start_link
-    ElixirBot.start_link("xoxb-76407831059-GdVsCRQtoDO64kra0Ry4wx0p")
+    ElixirBot.start_link("TOKEN")
   end
 
   def add_to_list(slack_bot, msg, item, quantity) do
@@ -42,7 +42,7 @@ defmodule ElixirBot do
       nil ->
         say slack_bot, msg["channel"], "Lista pusta, przed spamowaniem zapelnijcie ja pl0x :hankey:"
       _ ->
-        say slack_bot, "D28MWA4N7", reply
+        say slack_bot, "DIRECT CHANNEL", reply
         say slack_bot, msg["channel"], "Wyslane, dzieki koledzy :ok_hand:"
     end
   end
