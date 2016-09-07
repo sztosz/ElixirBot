@@ -47,10 +47,10 @@ defmodule ShoppingList do
   end
 
   defp update(map, key, value) do
-    cond do
-        Map.has_key?(map, key) ->
-          %{map | key => value}
+    case Map.has_key?(map, key) do
         true ->
+          %{map | key => value}
+        false ->
           Map.put_new(map, key, value)
     end
   end
