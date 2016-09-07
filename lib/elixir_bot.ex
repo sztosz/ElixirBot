@@ -8,7 +8,7 @@ defmodule ElixirBot do
   match ~r/t-001.*please.*/, :plz
   match ~r/.*hotswap.*/, :hotswap
   match ~r/.*kawa|:tea:|:coffee:.*/, :kawa
-  match ~r/.*papu|jedzenie|:piggy:|#teamroot|moa|pasi|pasibus.*/, :papu
+  match ~r/.*papu|jedzenie|:piggy:|#teamroot|moa|pasi|pasibus|:hamburger:.*/, :papu
 
   match ~r/t-001.*dodaj (\w+) (.*)/, :add_to_list
   match ~r/t-001.*pokaz liste.*/, :show_list
