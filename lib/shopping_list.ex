@@ -10,7 +10,7 @@ defmodule ShoppingList do
   end
 
   def show do
-    Agent.get(__MODULE__, show(map))
+    Agent.get(__MODULE__, &show(&1))
   end
 
   def reset do
@@ -18,24 +18,24 @@ defmodule ShoppingList do
   end
 
   defp update(map, key, value) do
-    cond Map.has_key?(map, key) do
-        true ->
+    cond do
+        Map.has_key?(map, key) ->
           %{map | key => value}
-        false ->
+        true ->
           Map.put_new(map, key, value)
     end
   end
 
-  defp show(map)
+  defp show(map) do
     map
     |> Map.to_list
-    |> Enum.reduce(stringify)
+    |> Enum.map(&stringify(&1))
+    |> Enum.join("\n")
   end
 
-  defp stringify(acc, elemnet) do
-    row = element
-      |> Tuple.to_list
-      |> Enum.reduce(fn(x, acc) -> "#{acc} #{x}")
-    "#{acc}\n#{row}"
+  defp stringify(tuple) do
+    tuple
+    |> Tuple.to_list
+    |> Enum.join(": ")
   end
 end
