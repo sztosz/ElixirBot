@@ -19,14 +19,14 @@ defmodule ShoppingList do
 
   def list_msg do
     content = show
-
-    if String.length(content) == 0 do
-      "Lista pusta, dodaj cos kumplu :hankey:"
-    else
-      """
-      LISTA:
-      ```#{content}```
-      """
+    case String.length(content) do
+      0 ->
+        "Lista pusta, dodaj cos kumplu :hankey:"
+      _ ->
+            """
+        LISTA:
+        ```#{content}```
+        """
     end
   end
 
@@ -34,12 +34,15 @@ defmodule ShoppingList do
     content = show
     reset
 
-    if String.length(content) > 0 do
-      """
-      Hej Lenka, lista zakupkow:
-      ```#{content}```
-      dzięki za ogarnięcie, t-001 out :kiss:
-      """
+    case String.length(content) do
+      0 ->
+        nil
+      _ ->
+        """
+        Hej Lenka, lista zakupkow:
+        ```#{content}```
+        dzięki za ogarnięcie, t-001 out :kiss:
+        """
     end
   end
 
