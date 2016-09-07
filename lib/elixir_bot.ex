@@ -80,7 +80,7 @@ defmodule ElixirBot do
   end
 
   def kawa(slack_bot, msg) do
-    case :rand.uniform(3) do
+    case :rand.uniform(2) do
        1 ->
         reply = select_tea_saying
         say slack_bot, msg["channel"], reply
@@ -89,7 +89,7 @@ defmodule ElixirBot do
   end
 
   def papu(slack_bot, msg) do
-    case :rand.uniform(3) do
+    case :rand.uniform(2) do
       2 ->
         reply = select_papu_saying
         say slack_bot, msg["channel"], reply
