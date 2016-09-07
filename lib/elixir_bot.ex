@@ -6,7 +6,7 @@ defmodule ElixirBot do
   match ~r/t-001.*najlepszy jezyk.*/, :best_lang
   match ~r/t-001.*dowcip|smieszkuj.*/, :joke
   match ~r/t-001.*please.*/, :plz
-  match ~r/t-001.*hotswap.*/, :hotswap
+  match ~r/.*hotswap.*/, :hotswap
   match ~r/.*kawa|:tea:|:coffee:.*/, :kawa
   match ~r/.*papu|jedzenie|:piggy:|#teamroot|moa|pasi|pasibus.*/, :papu
 
@@ -19,7 +19,7 @@ defmodule ElixirBot do
 
   def start(_type, _args) do
     ShoppingList.start_link
-    ElixirBot.start_link("")
+    ElixirBot.start_link("xoxb-76407831059-GdVsCRQtoDO64kra0Ry4wx0p")
   end
 
   def add_to_list(slack_bot, msg, item, quantity) do
