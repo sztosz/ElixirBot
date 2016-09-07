@@ -23,8 +23,7 @@ defmodule ElixirBot do
   end
 
   def show_list(slack_bot, msg) do
-    content = ShoppingList.show
-    say slack_bot, msg["channel"], ShoppingList.list_msg(content)
+    say slack_bot, msg["channel"], ShoppingList.list_msg
   end
 
   def reset_list(slack_bot, msg) do
@@ -33,8 +32,8 @@ defmodule ElixirBot do
   end
 
   def list_ready(slack_bot, msg) do
-    content = ShoppingList.show
-    say slack_bot, "PROPER CHANNEL ID", ShoppingList.ready_msg(content)
+    say slack_bot, "D28MWA4N7", ShoppingList.ready_msg
+    say slack_bot, msg["channel"], "Wyslane, dzieki koledzy :ok_hand:"
   end
 
   def help(slack_bot, msg) do

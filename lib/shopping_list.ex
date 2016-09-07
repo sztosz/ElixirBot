@@ -17,7 +17,9 @@ defmodule ShoppingList do
     Agent.update(__MODULE__, fn _ -> %{} end )
   end
 
-  def list_msg(content) do
+  def list_msg do
+    content = show
+
     if String.length(content) == 0 do
       "Lista pusta, dodaj cos kumplu :hankey:"
     else
@@ -28,7 +30,10 @@ defmodule ShoppingList do
     end
   end
 
-  def ready_msg(content) do
+  def ready_msg do
+    content = show
+    reset
+
     if String.length(content) > 0 do
       """
       Hej Lenka, lista zakupkow:
