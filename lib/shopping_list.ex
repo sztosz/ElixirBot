@@ -17,6 +17,27 @@ defmodule ShoppingList do
     Agent.update(__MODULE__, fn _ -> %{} end )
   end
 
+  def list_msg(content) do
+    if byte_size(content) == 0 do
+      "Lista pusta, dodaj cos kumplu :hankey:"
+    else
+      """
+      LISTA:
+      ```#{content}```
+      """
+    end
+  end
+
+  def ready_msg(content) do
+    if byte_size(content) > 0 do
+      """
+      Hej Lenka, lista zakupkow:
+      ```#{content}```
+      dzięki za ogarnięcie, t-001 out :kiss:
+      """
+    end
+  end
+
   defp update(map, key, value) do
     cond do
         Map.has_key?(map, key) ->

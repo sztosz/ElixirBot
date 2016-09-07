@@ -19,12 +19,12 @@ defmodule ElixirBot do
 
   def add_to_list(slack_bot, msg, item, quantity) do
     ShoppingList.update(item, quantity)
-    say slack_bot, msg["channel"], "#{item} #{quantity} dodane do listy koleszko :ok_hand:"
+    say slack_bot, msg["channel"], "`#{item} #{quantity}` dodane do listy koleszko :ok_hand:"
   end
 
   def show_list(slack_bot, msg) do
-    list_content = ShoppingList.show
-    say slack_bot, msg["channel"], "Lista zakupów \n #{list_content}"
+    content = ShoppingList.show
+    say slack_bot, msg["channel"], ShoppingList.list_msg(content)
   end
 
   def reset_list(slack_bot, msg) do
@@ -33,7 +33,8 @@ defmodule ElixirBot do
   end
 
   def list_ready(slack_bot, msg) do
-    say slack_bot, msg["channel"], ":godmode: NOT IMPLENTENDEDSDESDASDAA......SYNTAX ERROR :chewbacca:"
+    content = ShoppingList.show
+    say slack_bot, "PROPER CHANNEL ID", ShoppingList.ready_msg(content)
   end
 
   def help(slack_bot, msg) do
