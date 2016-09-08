@@ -19,7 +19,7 @@ defmodule ElixirBot do
 
   def start(_type, _args) do
     ShoppingList.start_link
-    ElixirBot.start_link("TOKEN")
+    ElixirBot.start_link(Application.fetch_env!(:elixir_bot, :token))
   end
 
   def add_to_list(slack_bot, msg, item, quantity) do
@@ -84,7 +84,7 @@ defmodule ElixirBot do
        1 ->
         reply = select_tea_saying
         say slack_bot, msg["channel"], reply
-      _ ->
+      _ -> nil
     end
   end
 
@@ -93,7 +93,7 @@ defmodule ElixirBot do
       2 ->
         reply = select_papu_saying
         say slack_bot, msg["channel"], reply
-      _ ->
+      _ -> nil
     end
   end
 
